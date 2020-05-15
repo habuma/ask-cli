@@ -12,7 +12,6 @@ describe('Commands new test - wizard helper test', () => {
     const TEST_OPTIONS = {};
     const TEST_LANGUAGE_RESPONSE = 'NodeJS';
     const TEST_DEPLOYMENT_TYPE = '@ask-cli/cfn-deployer';
-    const TEST_DEPLOYMENT_MANUAL_TYPE = ui.SKIP_DEPLOY_DELEGATE_SELECTION;
     const TEST_HOSTED_DEPLOYMENT = '@ask-cli/hosted-skill-deployer';
     const TEST_TEMPLATE_URL = 'TEST_TEMPLATE_URL';
     const TEST_TEMPLATE_NAME = 'TEST_TEMPLATE_NAME';
@@ -163,15 +162,10 @@ We currently only support ".git" url for user's custom template.`;
         });
 
         it('| new with official template, retrieve official template map fails, expect throw error', (done) => {
-            // setup
-            const TEST_HTTP_RESPONSE = {
-                statusCode: 300,
-                body: {}
-            };
             const TEST_HTTP_ERROR = 'Failed to retrieve the template list. Please run again with --debug to check more details.';
             ui.selectSkillCodeLanguage.callsArgWith(0, null, TEST_LANGUAGE_RESPONSE);
             ui.getDeploymentType.callsArgWith(1, null, TEST_DEPLOYMENT_TYPE);
-            httpClient.request.callsArgWith(3, null, TEST_HTTP_RESPONSE);
+            httpClient.request.callsArgWith(3, 'test error');
             // call
             wizardHelper.collectUserCreationProjectInfo(TEST_OPTIONS, (err) => {
                 // verify

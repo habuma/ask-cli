@@ -164,13 +164,27 @@ describe('Clients test - cli http request client', () => {
         });
 
         it('| request with success, expect no error and response', (done) => {
+            const mockResponse = { statusCode: 200 };
             // setup
-            stubRequest.callsArgWith(1, null, 'response');
+            stubRequest.callsArgWith(1, null, mockResponse);
             // call
             proxyhttpClient.request(VALID_OPTIONS, VALID_OPERATION, false, (err, response) => {
                 // verify
                 expect(err).equal(null);
-                expect(response).equal('response');
+                expect(response).equal(mockResponse);
+                done();
+            });
+        });
+
+        it('| request with bad response code, expect error', (done) => {
+            const mockResponse = { statusCode: 400 };
+            // setup
+            stubRequest.callsArgWith(1, null, mockResponse);
+            // call
+            proxyhttpClient.request(VALID_OPTIONS, VALID_OPERATION, false, (err, response) => {
+                // verify
+                expect(err).equal(`Failed to make request to valid-operation.\nStatus code: ${mockResponse.statusCode}`);
+                expect(response).equal(undefined);
                 done();
             });
         });
