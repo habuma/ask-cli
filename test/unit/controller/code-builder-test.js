@@ -245,7 +245,7 @@ describe('Controller test - CodeBuilder test', () => {
             // call
             codeBuilder.execute((err) => {
                 // verify
-                expect(shell.exec.args[0][0]).equal(`${TEST_PACKAGE_BUILDER} ${TEST_BUILD_FILE} false`);
+                expect(shell.exec.args[0][0]).equal(`${TEST_PACKAGE_BUILDER} "${TEST_BUILD_FILE}" false`);
                 expect(err).equal(`[Error]: Build Scripts failed with non-zero code: ${TEST_CODE}.`);
                 done();
             });
@@ -279,7 +279,7 @@ describe('Controller test - CodeBuilder test', () => {
             // call
             codeBuilder.execute((err) => {
                 // verify
-                expect(shell.exec.args[0][0]).equal(`${TEST_PACKAGE_BUILDER} ${TEST_BUILD_FILE} true`);
+                expect(shell.exec.args[0][0]).equal(`${TEST_PACKAGE_BUILDER} "${TEST_BUILD_FILE}" true`);
                 expect(err).equal(undefined);
                 done();
             });
